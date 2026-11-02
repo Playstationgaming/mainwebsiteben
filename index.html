@@ -2029,6 +2029,15 @@
         document.body.classList.remove("lock");
         co = null;
       }
+      /* each checkout step replaces the whole screen, so start every step at the top */
+      function coTop() {
+        const reduce = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+        requestAnimationFrame(() =>
+          $("#co").scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }),
+        );
+      }
       function summary() {
         const t = totals(co.items);
         $("#csum").innerHTML = `<h2>Order summary</h2>${co.items
@@ -2105,6 +2114,7 @@
         else
           $("#qrbox").textContent =
             "QR could not load. Please refresh the page and try again.";
+        coTop(); /* scroll to the QR code and UPI app options */
         $("#bk").onclick = showAddress;
         const qs = link.slice(link.indexOf("?") + 1),
           schemes = {
@@ -2190,6 +2200,7 @@
   <p class="mute">Delivering to ${esc(r.name)}, ${esc(r.address)}, ${esc(r.city)}, ${esc(r.state)} ${esc(r.pincode)}</p>
   <button class="cta" id="cdone">Continue shopping</button>`;
         $("#cdone").onclick = closeCo;
+        coTop(); /* scroll to the confirmation message */
       }
       $("#cx").onclick = closeCo;
 
