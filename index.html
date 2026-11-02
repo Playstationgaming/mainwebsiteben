@@ -1298,7 +1298,11 @@
   </head>
   <body>
     <div class="util" id="util">
-      <a href="#">Help</a><i>|</i><a href="#" data-li>Log In</a>
+      <a href="mailto:fabricindiaptd@gmail.com">fabricindiaptd@gmail.com</a
+      ><i>|</i
+      ><a href="https://wa.me/916266044288" target="_blank" rel="noopener"
+        >WhatsApp</a
+      ><i>|</i><a href="#" data-li>Log In</a>
     </div>
 
     <header class="nav">
@@ -1387,7 +1391,11 @@
         <div>
           <h4>Help</h4>
           <a href="#" data-my>Order Status</a><a href="#">Delivery</a
-          ><a href="#">Returns</a><a href="#">Contact Us</a>
+          ><a href="#">Returns</a
+          ><a href="mailto:fabricindiaptd@gmail.com">fabricindiaptd@gmail.com</a
+          ><a href="https://wa.me/916266044288" target="_blank" rel="noopener"
+            >WhatsApp</a
+          >
         </div>
         <div>
           <h4>About Us</h4>
@@ -1430,7 +1438,7 @@
       <div class="why" id="why">
         <div class="wh">
           <p class="eyebrow">Original products · Honest prices</p>
-          <h2>original Products.<br /><em>Smarter Price.</em></h2>
+          <h2>Same original quality.<br /><em>Much smaller price.</em></h2>
           <p class="lead">
             We are an original Benetton supplier. We keep only
             <b>7–8% margin</b> over the company price, so you pay what the
@@ -2064,7 +2072,7 @@
         $("#cmain").innerHTML =
           steps(1) +
           `<h2>Scan and pay</h2><p class="mute" style="margin-top:0">Order ID <b>${esc(o.id)}</b></p>
-  <div class="qr"><div id="qrbox"></div><div class="amt">${inr(o.total)}</div><div class="upi"><span>${UPI_ID}</span><button type="button" id="cp">Copy</button></div></div>
+  <div class="qr"><div id="qrbox"></div><div class="amt">${inr(o.total)}</div></div>
   <a class="cta ghost upilink" href="${esc(link)}">Pay with UPI app</a>
   <p class="mute">Scan with Google Pay, PhonePe, Paytm or any UPI app and pay exactly ${inr(o.total)}. Then enter the 12-digit UTR (reference number) from the payment screen.</p>
   <form id="pf2"><label for="ut">UTR / transaction reference</label><input id="ut" required inputmode="numeric" pattern="[0-9]{12}" maxlength="12" placeholder="12 digits" title="12-digit UTR number">
@@ -2079,11 +2087,8 @@
             correctLevel: QRCode.CorrectLevel.M,
           });
         else
-          $("#qrbox").textContent = "QR could not load. Use the UPI ID below.";
-        $("#cp").onclick = () =>
-          navigator.clipboard
-            ?.writeText(UPI_ID)
-            .then(() => toast("UPI ID copied"));
+          $("#qrbox").textContent =
+            "QR could not load. Please refresh the page and try again.";
         $("#bk").onclick = showAddress;
         $("#pf2").onsubmit = async (e) => {
           e.preventDefault();
@@ -2242,7 +2247,7 @@
       }
       function authUI() {
         $("#util").innerHTML =
-          '<a href="#">Help</a><i>|</i>' +
+          '<a href="mailto:fabricindiaptd@gmail.com">fabricindiaptd@gmail.com</a><i>|</i><a href="https://wa.me/916266044288" target="_blank" rel="noopener">WhatsApp</a><i>|</i>' +
           (user
             ? `<span>Hi, ${esc(fname(user))}</span><i>|</i><a href="#" data-my>My Orders</a><i>|</i><a href="#" data-lo>Log Out</a>`
             : '<a href="#" data-li>Log In</a>');
