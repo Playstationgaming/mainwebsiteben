@@ -159,6 +159,25 @@
       .ib em.show {
         display: block;
       }
+      .ib.acct {
+        width: auto;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0 14px 0 10px;
+        border-radius: 24px;
+        font-size: 14px;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+      .ib.acct span {
+        max-width: 90px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .ib.acct.in svg {
+        color: #1a9e4b;
+      }
       .promo {
         background: var(--bg);
         text-align: center;
@@ -719,6 +738,25 @@
         }
         .search input {
           display: none;
+        }
+        .tools {
+          gap: 0;
+        }
+        .tools .ib,
+        .tools .search {
+          width: 36px;
+        }
+        .tools .ib.acct {
+          padding: 0;
+          justify-content: center;
+        }
+        .tools .ib.acct span {
+          display: none;
+        }
+        @media (max-width: 380px) {
+          .nav .logo {
+            --lh: 30px;
+          }
         }
         .railwrap {
           margin: 0 -1rem;
@@ -1337,6 +1375,19 @@
           </svg>
           <input id="q" type="search" placeholder="Search" autocomplete="off" />
         </label>
+        <button class="ib acct" id="acctBtn" data-li aria-label="Log in" title="Log in">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" /></svg
+          ><span>Log In</span>
+        </button>
         <button class="ib" id="wishBtn" aria-label="Favourites">
           <svg
             width="24"
@@ -2299,6 +2350,14 @@
           (user
             ? `<span>Hi, ${esc(fname(user))}</span><i>|</i><a href="#" data-my>My Orders</a><i>|</i><a href="#" data-lo>Log Out</a>`
             : '<a href="#" data-li>Log In</a>');
+        const ab = $("#acctBtn");
+        if (ab) {
+          ab.toggleAttribute("data-li", !user);
+          ab.toggleAttribute("data-my", !!user);
+          ab.classList.toggle("in", !!user);
+          ab.title = ab.ariaLabel = user ? "My Orders" : "Log in";
+          ab.querySelector("span").textContent = user ? fname(user) : "Log In";
+        }
         loginBar();
         if (user && $("#af")) {
           const set = (i, v) => {
