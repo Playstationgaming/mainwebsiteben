@@ -1367,7 +1367,7 @@
     </header>
 
     <div class="promo">
-      <p>Free delivery on orders over ₹999 / Lowest Price Or Money Back</p>
+      <p>Free delivery on all products / Lowest Price Or Money Back</p>
       <a href="#shop">Shop Now</a><a href="#">T&amp;Cs</a>
     </div>
 
@@ -1482,7 +1482,7 @@
             <ul>
               <li>You pay close to the company price</li>
               <li>Original product, original quality</li>
-              <li>No hidden charges. Free delivery over ₹2,999</li>
+              <li>No hidden charges. Free delivery on all products</li>
             </ul>
           </div>
           <div class="bars">
@@ -1586,8 +1586,7 @@
         ["Women", "Women"],
         ["Sale", "Sale"],
       ];
-      const FREE = 2999,
-        SHIP = 149;
+      const SHIP = 0; /* delivery charge in ₹. 0 = free delivery on all products */
 
       /* ---------- demo data (used until Firebase is connected) ---------- */
       const demoGallery = [
@@ -1866,7 +1865,7 @@
               .join("")
           : '<p class="empty">Your bag is empty.</p>';
         const sub = cart.reduce((s, l) => s + get(l).price * l.qty, 0),
-          ship = !sub || sub >= FREE ? 0 : SHIP;
+          ship = SHIP;
         $("#sub").textContent = inr(sub);
         $("#ship").textContent = ship ? inr(ship) : "Free";
         $("#tot").textContent = inr(sub + ship);
@@ -2005,7 +2004,7 @@
       const lineP = (l) => products.find((p) => p.id === l.id);
       function totals(items) {
         const sub = items.reduce((s, l) => s + lineP(l).price * l.qty, 0),
-          ship = !sub || sub >= FREE ? 0 : SHIP;
+          ship = SHIP;
         return { sub, ship, total: sub + ship };
       }
       const steps = (n) =>
