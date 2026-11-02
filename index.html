@@ -901,13 +901,27 @@
         font-weight: 500;
         text-decoration: underline;
       }
-      .upilink {
-        display: none;
+      .uapps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 10px;
       }
-      @media (hover: none) {
-        .co a.upilink {
-          display: block;
-        }
+      .uapps button {
+        border: 1px solid #ccc;
+        border-radius: 30px;
+        padding: 12px 6px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .uapps button:hover {
+        border-color: var(--ink);
+      }
+      .uhint {
+        text-align: center;
+        font-size: 13px;
+        color: var(--mute);
+        margin-top: 10px;
       }
       .ok {
         width: 72px;
@@ -2073,7 +2087,9 @@
           steps(1) +
           `<h2>Scan and pay</h2><p class="mute" style="margin-top:0">Order ID <b>${esc(o.id)}</b></p>
   <div class="qr"><div id="qrbox"></div><div class="amt">${inr(o.total)}</div></div>
-  <a class="cta ghost upilink" href="${esc(link)}">Pay with UPI app</a>
+  <button type="button" class="cta" id="upibtn">Pay through UPI apps</button>
+  <div class="uapps"><button type="button" data-upi="gpay">Google Pay</button><button type="button" data-upi="phonepe">PhonePe</button><button type="button" data-upi="paytm">Paytm</button></div>
+  <p class="uhint">Opens your UPI app with the amount filled in. On a computer, scan the QR above.</p>
   <p class="mute">Scan with Google Pay, PhonePe, Paytm or any UPI app and pay exactly ${inr(o.total)}. Then enter the 12-digit UTR (reference number) from the payment screen.</p>
   <form id="pf2"><label for="ut">UTR / transaction reference</label><input id="ut" required inputmode="numeric" pattern="[0-9]{12}" maxlength="12" placeholder="12 digits" title="12-digit UTR number">
   <button class="cta" id="pdone">I have paid</button></form>
@@ -2090,6 +2106,28 @@
           $("#qrbox").textContent =
             "QR could not load. Please refresh the page and try again.";
         $("#bk").onclick = showAddress;
+        const qs = link.slice(link.indexOf("?") + 1),
+          schemes = {
+            any: "upi://pay?",
+            gpay: "gpay://upi/pay?",
+            phonepe: "phonepe://pay?",
+            paytm: "paytmmp://pay?",
+          };
+        const openUpi = (k) => {
+          window.location.href = schemes[k] + qs;
+          setTimeout(() => {
+            if (!document.hidden)
+              toast(
+                k === "any"
+                  ? "No UPI app opened. Scan the QR code instead."
+                  : "That app did not open. Try another app or scan the QR.",
+              );
+          }, 1800);
+        };
+        $("#upibtn").onclick = () => openUpi("any");
+        $$("[data-upi]", $("#cmain")).forEach(
+          (b) => (b.onclick = () => openUpi(b.dataset.upi)),
+        );
         $("#pf2").onsubmit = async (e) => {
           e.preventDefault();
           const b = $("#pdone");
